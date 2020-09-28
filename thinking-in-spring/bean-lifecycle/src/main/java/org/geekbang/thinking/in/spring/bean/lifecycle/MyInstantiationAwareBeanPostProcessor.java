@@ -20,6 +20,7 @@ import org.geekbang.thinking.in.spring.ioc.overview.domain.SuperUser;
 import org.geekbang.thinking.in.spring.ioc.overview.domain.User;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.util.ObjectUtils;
@@ -79,7 +80,7 @@ class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPos
             // 如果存在 "description" 属性配置的话
             if (propertyValues.contains("description")) {
                 // PropertyValue value 是不可变的
-//                    PropertyValue propertyValue = propertyValues.getPropertyValue("description");
+                // PropertyValue propertyValue = propertyValues.getPropertyValue("description");
                 propertyValues.removePropertyValue("description");
                 propertyValues.addPropertyValue("description", "The user holder V2");
             }

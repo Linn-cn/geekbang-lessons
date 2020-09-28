@@ -23,6 +23,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.ResourceLoader;
 
@@ -83,6 +84,7 @@ public class DependencySourceDemo {
         applicationContext.register(DependencySourceDemo.class);
 
         // 启动 Spring 应用上下文
+        // prepareBeanFactory(beanFactory)中的this就是指的自己AnnotationConfigApplicationContext
         applicationContext.refresh();
 
         // 依赖查找 DependencySourceDemo Bean

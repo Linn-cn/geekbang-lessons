@@ -71,21 +71,27 @@ public class AnnotationDependencyInjectionResolutionDemo {
     @InjectedUser
     private User myInjectedUser;
 
-//    @Bean(name = AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)
-//    public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
-//        AutowiredAnnotationBeanPostProcessor beanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
-//        // @Autowired + @Inject +  新注解 @InjectedUser
-//        Set<Class<? extends Annotation>> autowiredAnnotationTypes =
-//                new LinkedHashSet<>(asList(Autowired.class, Inject.class, InjectedUser.class));
-//        beanPostProcessor.setAutowiredAnnotationTypes(autowiredAnnotationTypes);
-//        return beanPostProcessor;
-//    }
+   // @Bean(name = AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)
+   // public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
+   //     AutowiredAnnotationBeanPostProcessor beanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
+   //     // @Autowired + @Inject +  新注解 @InjectedUser
+   //     Set<Class<? extends Annotation>> autowiredAnnotationTypes =
+   //             new LinkedHashSet<>(asList(Autowired.class, Inject.class, InjectedUser.class));
+   //     beanPostProcessor.setAutowiredAnnotationTypes(autowiredAnnotationTypes);
+   //     return beanPostProcessor;
+   // }
 
+    // @Order设置自定义的后置处理器优先级，比AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME先执行
+    // 设置方法为static，是因为bean定义的一个周期性问题
+    // 如果是非static，那么这个bean的构建是依赖于声明类的这个bean来处理的
+    // 但是如果是static，那么它就脱离了这个实现，变成了一个独立的bean，所以如果你需要bean初始化或提前初始化，那么可以选择性的标注成static
     @Bean
     @Order(Ordered.LOWEST_PRECEDENCE - 3)
     @Scope
     public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
         AutowiredAnnotationBeanPostProcessor beanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
+        // 替换原有的注解，换成自己自定义的注解
+        // setAutowiredAnnotationType会先清空默认要处理的注解，比如@Autowired和@Inject就不会再被处理
         beanPostProcessor.setAutowiredAnnotationType(InjectedUser.class);
         return beanPostProcessor;
     }
